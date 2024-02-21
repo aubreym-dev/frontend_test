@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Avatar from "boring-avatars";
 import {
   FaRegCircleXmark,
@@ -21,6 +21,12 @@ const Gallery = ({ users }: GalleryProps) => {
   const [usersList, setUsersList] = useState(users);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSortField, setSelectedSortField] = useState("name");
+  const [selectedSortDirection, setSelectedSortDirection] = useState("ascending");
+
+  useEffect(() => {
+    setUsersList(handleSortChange(selectedSortField))
+  }, [selectedSortField, selectedSortDirection])
 
   const handleModalOpen = (id: number) => {
     const user = usersList.find((item) => item.id === id) || null;
@@ -36,11 +42,60 @@ const Gallery = ({ users }: GalleryProps) => {
     setIsModalOpen(false);
   };
 
+  // function handleSortChange<T>(sortedUsers: T[], field: keyof T){
+  //   sortedUsers = sortedUsers.sort((a, b) => {
+  //     const aValue = String(a[field]).toLowerCase();
+  //     const bValue = String(b[field]).toLowerCase();
+
+  //     if (selectedSortDirection.toLowerCase() === 'ascending') {
+  //       if (aValue < bValue) return -1;
+  //       if (aValue > bValue) return 1;
+  //       return 0;
+  //     } 
+  //     else {
+  //       if (aValue > bValue) return -1;
+  //       if (aValue < bValue) return 1;
+  //       return 0;
+  //     }
+  //   })
+  // }
+
+  function handleSortChange(field: string) {
+    let sortedUsers = JSON.parse(JSON.stringify(usersList));
+    let aValue;
+    let bValue;
+
+    return sortedUsers.sort((a: any, b: any) => {
+      if(field === "company") {
+        aValue = String(a.company.name).toLowerCase();
+        bValue = String(b.company.name).toLowerCase();
+      }
+      else {
+        aValue = String(a[field]).toLowerCase();
+        bValue = String(b[field]).toLowerCase();
+      }
+
+      if (selectedSortDirection.toLowerCase() === 'ascending') {
+        if (aValue < bValue) return -1;
+        if (aValue > bValue) return 1;
+        return 0;
+      } 
+      else {
+        if (aValue > bValue) return -1;
+        if (aValue < bValue) return 1;
+        return 0;
+      }
+    });
+  }
+
   return (
     <div className="user-gallery">
       <div className="heading">
         <h1 className="title">Users</h1>
-        <Controls />
+        <Controls 
+          setSelectedSortField={setSelectedSortField}
+          setSelectedSortDirection={setSelectedSortDirection}
+        />
       </div>
       <div className="items">
         {usersList.map((user, index) => (

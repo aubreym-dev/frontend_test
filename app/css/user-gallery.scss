@@ -19,6 +19,25 @@
     }
   }
 
+  > .heading {
+    display: flex;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-between;
+
+    > .title {
+      margin-right: auto;
+      flex-grow: 8;
+    }
+  
+    > .sort {
+      font-weight: bold;
+      text-align: center;
+      flex-grow: 1;
+    }
+  }
+
   > .heading + .items {
     margin-top: 32px;
   }
