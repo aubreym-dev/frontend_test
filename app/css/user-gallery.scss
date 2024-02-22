@@ -12,7 +12,20 @@
     }
   }
 
+  > .heading-todo {
+    margin-top: 4rem;
+  }
+
+  > .heading-cat {
+    margin-top: 4rem;
+  }
+
   > .heading + .items {
     margin-top: 32px;
+  }
+
+  > .loading {
+    color: darkgrey;
+    text-align: center;
   }
 }
