@@ -18,6 +18,10 @@
     justify-content: center;
   }
 
+  > .body > .img {
+    border-radius: 50%;
+  }
+
   > .info {
     flex: 2 0 66%;
     display: flex;
